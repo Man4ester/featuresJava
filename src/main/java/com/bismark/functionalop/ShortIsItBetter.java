@@ -1,16 +1,22 @@
 package com.bismark.functionalop;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.bismark.functionalop.base.Person;
 
+/*
+ * https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html 
+ */
 public class ShortIsItBetter {
 
 	public static void main(String[] args) {
-		example2();
+		example5();
 	}
 
 	public static void example1() {
@@ -39,7 +45,7 @@ public class ShortIsItBetter {
 
 		Person per2 = new Person();
 		per2.setSurName("a");
-		
+
 		personList.add(per1);
 		personList.add(per2);
 
@@ -72,6 +78,44 @@ public class ShortIsItBetter {
 		for (Person p : personList) {
 			System.out.println(p.getSurName());
 		}
+	}
+
+	public static void example3() {
+		List<String> names = Arrays.asList("Sasha", "Petya", "Kolya");
+
+		for (String val : names) {
+			System.out.println(val);
+		}
+
+		names.forEach(v -> System.out.println(v));
+	}
+
+	public static void example4() {
+		List<String> lines = Arrays.asList("spring", "node", "mkyong");
+
+		List<String> result = lines.stream() // convert list to stream
+				.filter(line -> !"mkyong".equals(line)) // we dont like mkyong
+				.collect(Collectors.toList()); // collect the output and convert
+												// streams to a List
+
+		result.forEach(System.out::println); // output : spring, node
+	}
+
+	public static void example5() {
+		Optional<String> gender = Optional.of("MALE");
+		String answer1 = "Yes";
+		String answer2 = null;
+
+		System.out.println("Non-Empty Optional:" + gender);
+		System.out.println("Non-Empty Optional: Gender value : " + gender.get());
+		System.out.println("Empty Optional: " + Optional.empty());
+
+		System.out.println("ofNullable on Non-Empty Optional: " + Optional.ofNullable(answer1));
+		System.out.println("ofNullable on Empty Optional: " + Optional.ofNullable(answer2));
+
+		// java.lang.NullPointerException
+		System.out.println("ofNullable on Non-Empty Optional: " + Optional.of(answer2));
+
 	}
 
 }
